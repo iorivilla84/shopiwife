@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #4d4d4d;
+    padding: 18vw 0;
+}
+
+.card-container {
+    padding: 0 30px 30px;
+}
+
+.card-body .line-item {
+    border-bottom: 1px solid rgba(0,0,0, 0.1);
+    border-top: 1px solid rgba(255,255,255, 0.2);
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+.counter {
+    background-color: red;
+    border-radius: 100%;
+    display: inline-block;
+    font-size: 16px;
+    height: 25px;
+    padding-top: 2px;
+    padding-right: 2px;
+    margin-left: 10px;
+    width: 25px;    
+}
+
+.header-container {
+    padding: 30px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.header-image {
+    width: 40%;
+    margin-bottom: 20px;
+}
+
+.inner-container {
+    text-align: center;
+}
+
+.delete {
+    cursor: pointer;
+    align-self: center;
+}
+
+.form-controler .add-item-button {
+    background-color: #FFC001;
+    border-color: #FFC001;
+    display: inline-block;
+    flex: 1 1 100%;
+    margin-top: 10px;
+    transition: 0.2s ease-in-out;
+}
+
+.form-controler .add-item-button:focus, .form-controler .add-item-button:active {
+    background-color: #cf9b00 !important;
+    border-color: #cf9b00 !important;
+    box-shadow: 0 0 0 0.2rem rgba(255,255,255, 0.1) !important;
+}
+
+.form-controler .add-item-button:hover {
+    background-color: #cf9b00 !important;
+    transform: translateY(-4px);
+    animation: add-button .2s ease-out;
+}
+
+.form-control {
+    flex: 1 1 100%;
+    width: auto;
+}
+
+.form-controler {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.main-container {
+    background: rgba(0,0,0, 0.4);
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: white;
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.parcel-list-container {
+    display: flex;
+}
+
+.pending {
+    background-color: #EC8B68;
+}
+
+.received {
+    background-color: #6CC0AC;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes add-button {
+    0%{ transform: translateY(0) }
+    50%{ transform: translateY(-4px)}
+    100%{ transform: translateY(0)}
+}
+
+@media screen and (min-width: 576px) {
+    .form-controler .add-item-button, .form-control {
+        flex: 1 1 auto;
+    }
+
+    .form-controler .add-item-button {
+        margin-left: 10px;
+        margin-top: 0;
+    }
+}
