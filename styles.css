@@ -70,6 +70,7 @@ body {
 
 .form-control {
     flex: 1 1 100%;
+    border-radius: 50px;
     width: auto;
     height: auto;
 }
