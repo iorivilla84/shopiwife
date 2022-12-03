@@ -18,7 +18,12 @@ body {
     border-top: 1px solid rgba(255,255,255, 0.2);
     display: flex;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: 15px 20px;
+}
+
+.card-body {
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .counter {
@@ -92,7 +97,6 @@ body {
 }
 
 .line-item .line-item-name {
-    cursor: pointer;
     margin-bottom: 0;
     transition: .3s;
     width: 100%;
@@ -109,6 +113,8 @@ body {
     color: white;
     max-width: 600px;
     margin: 0 auto;
+    padding-left: 15px;
+    padding-right: 15px;
     width: 100%;
 }
 
@@ -151,5 +157,10 @@ body {
     .form-controler .add-item-button {
         margin-left: 10px;
         margin-top: 0;
+    }
+
+    .main-container {
+        padding-left: 0;
+        padding-right: 0;
     }
 }
