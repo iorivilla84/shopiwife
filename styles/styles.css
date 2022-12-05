@@ -1,0 +1,252 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --dark: #374151;
+    --darker: #2e3335;
+    --darkest: #212529;
+    --gray: #6B7280;
+    --light: #EEE;
+    --blue: #0dcaf0;
+    --success: #50CD89;
+    --error: #F14C41;
+    --lightError: #FFD0CB;
+    --white: #FFF;
+    --text-color: #6C7580;
+}
+
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+    background-color: var(--darker);
+}
+
+.btn-cta-wrapper {
+    text-align: center;
+}
+
+.card-container {
+    padding: 0;
+}
+
+.card-body {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.counter {
+    background-color: var(--error);
+    color: var(--white);
+    border-radius: 100%;
+    display: inline-block;
+    font-size: 16px;
+    height: 25px;
+    padding-top: 1px;
+    padding-right: 2px;
+    margin-left: 10px;
+    width: 25px;    
+}
+
+.delete {
+    cursor: pointer;
+    align-self: center;
+}
+
+.error-msg {
+    color: var(--error);
+    height: 0;
+    margin: 0;
+    opacity: 0;
+    text-align: center;
+    width: 100%;
+}
+
+.error-msg.invalid {
+    height: auto;
+    background-color: var(--lightError);
+    opacity: 1;
+    padding: 10px;
+}
+
+header {
+    background-color: var(--darkest);
+    padding: 3rem 1.5rem 1.5rem;
+}
+
+.header-title {
+    color: var(--dark);
+    padding-bottom: 1.5rem;
+}
+
+.input-wrapper {
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+.item-content {
+    width: 100%;
+}
+
+.item-title {
+    font-weight: bold;
+    padding-bottom: .5rem;
+    text-transform: uppercase;
+}
+
+.logo-wrapper {
+    border-bottom: 2px solid var(--dark);
+    padding-bottom: 30px;
+}
+
+.logo-wrapper img {
+    width: 50vw;
+}
+
+.list-container input, .list-container button, .list-container textarea {
+    appearance: none;
+    border: none;
+    outline: none;
+    background: none;
+}
+
+.list-container textarea {
+    resize: none;
+}
+
+.list-container textarea:is(:focus, :valid) {
+    border-color: var(--blue);
+}
+
+.list-container textarea::-webkit-scrollbar {
+    width: 0;
+}
+
+.list-container .line-item {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--darkest);
+    padding: 1rem;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+}
+
+.list-container .text {
+    color: var(--light);
+    font-size: 1.125rem;
+    width: 100%;
+    display: block;
+    transition: .4s;
+    background-color: var(--darkest);
+}
+
+.list-container .text:not(:read-only) {
+    color: var(--blue);
+}
+
+.list-container .btn-cta-actions {
+    display: flex;
+    margin: 0 -0.5rem;
+}
+
+.list-container .btn-cta-actions button {
+    cursor: pointer;
+    margin: 0 0.5rem;
+    font-size: 1.235rem;
+    transition: .4s;
+}
+
+.list-container .btn-cta-actions button:hover {
+    opacity: 0.8;
+}
+
+.list-container .btn-cta-actions button:active {
+    opacity: 0.6;
+}
+
+.list-container .btn-cta-actions .edit {
+    color: var(--blue);
+}
+
+.list-container .btn-cta-actions .delete {
+    color: var(--error);
+}
+
+.nav-tabs {
+    border-bottom: 1px solid var(--darkest);
+}
+
+.nav-tabs .nav-link {
+    border-radius: 0;
+    padding: 10px 30px;
+    color: var(--white);
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: var(--darkest);
+    background-color: var(--darkest);
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    background-color: var(--darkest);
+    border-color: var(--darkest);
+    color: var(--blue);
+}
+
+/* .pending {
+    background-color: #EC8B68;
+}
+
+.received {
+    background-color: #6CC0AC;
+} */
+
+.shopping-items {
+    border-bottom: 2px solid var(--dark);
+}
+
+.todo-wrapper {
+    padding-top: 50px;
+}
+
+.text-input, .text-input:focus {
+    background-color: var(--darkest);
+    border-color: var(--darkest);
+    color: var(--text-color);
+}
+
+.user-name {
+    color: var(--light);
+}
+
+.welcome-message {
+    text-align: center;
+}
+
+.welcome-title {
+    color: var(--blue);
+}
+
+@media screen and (min-width: 576px) {
+    .btn-cta-wrapper {
+        text-align: right;
+    }
+
+    .logo-wrapper img {
+        width: 20vw;
+    }
+
+    header {
+        padding: 3rem 1.5rem;
+    }
+
+    .input-wrapper {
+        flex-wrap: nowrap;
+    }
+
+    .welcome-message {
+        text-align: left;
+    }
+}
