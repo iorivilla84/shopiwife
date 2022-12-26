@@ -92,8 +92,11 @@ header {
 
 .item-title {
     font-weight: bold;
-    padding-bottom: .5rem;
     text-transform: uppercase;
+}
+
+.item-description {
+    padding-top: .5rem;
 }
 
 .logo-wrapper {
@@ -105,26 +108,26 @@ header {
     width: 50vw;
 }
 
-.list-container input, .list-container button, .list-container textarea {
+.line-item input, .line-item button, .line-item textarea {
     appearance: none;
     border: none;
     outline: none;
     background: none;
 }
 
-.list-container textarea {
+.line-item textarea {
     resize: none;
 }
 
-.list-container textarea:is(:focus, :valid) {
+.line-item textarea:is(:focus, :valid) {
     border-color: var(--blue);
 }
 
-.list-container textarea::-webkit-scrollbar {
+.line-item textarea::-webkit-scrollbar {
     width: 0;
 }
 
-.list-container .line-item {
+.line-item {
     display: flex;
     justify-content: space-between;
     background-color: var(--darkest);
@@ -133,7 +136,7 @@ header {
     margin-bottom: 1rem;
 }
 
-.list-container .text {
+.line-item .text {
     color: var(--light);
     font-size: 1.125rem;
     width: 100%;
@@ -142,35 +145,35 @@ header {
     background-color: var(--darkest);
 }
 
-.list-container .text:not(:read-only) {
+.line-item .text:not(:read-only) {
     color: var(--blue);
 }
 
-.list-container .btn-cta-actions {
+.line-item .btn-cta-actions {
     display: flex;
     margin: 0 -0.5rem;
 }
 
-.list-container .btn-cta-actions button {
+.line-item .btn-cta-actions button {
     cursor: pointer;
     margin: 0 0.5rem;
     font-size: 1.235rem;
     transition: .4s;
 }
 
-.list-container .btn-cta-actions button:hover {
+.line-item .btn-cta-actions button:hover {
     opacity: 0.8;
 }
 
-.list-container .btn-cta-actions button:active {
+.line-item .btn-cta-actions button:active {
     opacity: 0.6;
 }
 
-.list-container .btn-cta-actions .edit {
+.line-item .btn-cta-actions .edit {
     color: var(--blue);
 }
 
-.list-container .btn-cta-actions .delete {
+.line-item .btn-cta-actions .delete {
     color: var(--error);
 }
 
