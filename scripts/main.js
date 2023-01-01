@@ -29,6 +29,9 @@ const deleteEventElement = e => {
         updateEventCounter();
     } catch {
         completedEventContainer.removeChild(eventCardItem);
+        if (completedEventContainer.childElementCount === 0) {
+            completeTitle.classList.add('d-none');
+        }
     }
 }
 
@@ -45,14 +48,12 @@ const markEventAsCompleted = (card) => {
         btnEditDisabled.classList.add('disabled');
     };
     deleteEventElement(card);
-    completedEventContainer.append(eachCardCompleted);
-
-    if (completedEventContainer.childNodes.length !== 0) {
-        completeTitle.classList.remove('d-none');
-        console.log(completedEventContainer.children.length);
-    } else {
+    if (completedEventContainer.childElementCount === 0) {
         completeTitle.classList.remove('d-none');
     }
+    completedEventContainer.append(eachCardCompleted);
+
+    // completedEventContainer.childNodes.length <= 3 ? completeTitle.classList.add('d-none') : completeTitle.classList.remove('d-none');
 }
 
 const editEventElement = e => {
@@ -62,8 +63,9 @@ const editEventElement = e => {
     
     for (let i = 0; i < eachCardContent.length; i++) {
         if (eachCardContent[i].hasAttribute('readonly')) {
-            btnEdit.classList.add('active');
             eachCardContent[i].removeAttribute('readonly');
+            btnEdit.classList.add('active');
+            editLabelText.classList.remove('is-saved');
         } else {
             btnEdit.classList.remove('active');
             eachCardContent[i].setAttribute('readonly', 'readonly');

@@ -175,12 +175,13 @@ header {
 }
 
 .line-item .text {
-    color: var(--light);
-    font-size: 1.125rem;
-    width: 100%;
-    display: block;
-    transition: .4s;
     background-color: var(--darkest);
+    color: var(--light);
+    display: block;
+    font-size: 1.125rem;
+    padding-right: 15px;
+    transition: .4s;
+    width: 100%;
 }
 
 .line-item .text:not(:read-only) {
