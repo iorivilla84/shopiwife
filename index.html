@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="./styles/styles.css">
 
     <!-- New Font Awesome js-->
-    <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+    <script src="https://kit.fontawesome.com/4985baec1e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css" integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">    
 
     <!-- JavaScript Bundle with Popper -->
@@ -53,7 +53,7 @@
       <!-- nav tabs -->
             <nav id="todo-nav-list">
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-shopping" type="button" role="tab" aria-controls="nav-shopping" aria-selected="true">Shopping <span class="counter">0</span></button>
+                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-shopping" type="button" role="tab" aria-controls="nav-shopping" aria-selected="true">Shopping <span class="ev-counter">0</span></button>
                     <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Events</button>
                 </div>
             </nav>
@@ -61,8 +61,8 @@
          <!-- Shopping tab -->
         <div class="tab-pane fade show active" id="nav-shopping" role="tabpanel" aria-labelledby="nav-shopping-tab">
             <form class="event-items-form input-wrapper py-4" action="">
-                <input type="text" name="eventTitleInput" class="form-control text-input" id="newEventTitle" placeholder="I'm waiting for?">
-                <input type="text" name="eventDescriptionInput" class="form-control text-input" id="newEventDescription" placeholder="I want to remember that...">
+                <input type="text" name="eventTitleInput" class="form-control text-input title" id="newEventTitle" placeholder="I'm waiting for?">
+                <input type="text" name="eventDescriptionInput" class="form-control text-input description" id="newEventDescription" placeholder="I want to remember that...">
                 <input type="submit" id="new-event-submit" class="btn btn-outline-info" value="Add purchase">
             </form>
             <p class="error-msg fs-5">Please fill out the form above to add your item...</p>
@@ -71,6 +71,7 @@
             <div class="card-container shopping-list">
                 <h2 class="shopping-title text-white display-6 pt-5">My Shopping List</h2>
 
+                <!-- Current items -->
                 <div class="card-body inner-list event-list-container">
                   <!-- <div class="shopping-item line-item">
                     <div class="item-content">
@@ -78,11 +79,18 @@
                         <textarea type="text" class="text item-description" readonly>${itemDesc}</textarea>
                     </div>
                     <div class="btn-cta-actions">
-                        <button class="edit"><i class="far fa-edit"></i></button>
-                        <button class="delete"><i class="fas fa-trash-alt"></i></button>
+                        <i class="edit far fa-edit" id="edit-btn">
+                          <label for="edit-btn" class="edit-label" style="color: white;">saved</label>
+                        </i>
+                        <i class="delete fas fa-trash-alt"></i>
                     </div> -->
                 </div>
-              </div>
+
+                <!-- Completed items -->
+                <h4 class="shopping-title-completed text-white pt-2 mb-4 d-none">Shopping List Completed</h4>
+                <div class="completed-events pb-5 inner-list event-list-container">
+                </div>
+            </div>
         </div>
 
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>

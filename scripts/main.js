@@ -6,16 +6,16 @@
     // crear btn borrar and completed
 // insertar elemento html
 
-const addEventItem = (e) => {
+const addEventItem = e => {
     e.preventDefault();
     const eventInputTitle = eventInputForm.eventTitleInput.value.trim();
-    // const eventInputDescription = eventInputForm.eventDescriptionInput.value.trim();
+    const eventInputDescription = eventInputForm.eventDescriptionInput.value.trim();
 
-    if (!eventInputTitle) {
+    if (!eventInputTitle || !eventInputDescription) {
         errorMsg.classList.add('invalid')
         // alert('please fill out the form')
     } else {
-        createAndAddItem(eventInputTitle);
+        createAndAddItem(eventInputTitle, eventInputDescription);
         errorMsg.classList.remove('invalid');
         eventInputForm.reset();
         updateEventCounter();
@@ -23,13 +23,70 @@ const addEventItem = (e) => {
 };
 
 const deleteEventElement = e => {
-    const mainCardContainer = e.target.parentNode.parentNode;
-    console.log(mainCardContainer);
-    myEventContainer.removeChild(mainCardContainer);
-    updateCounter();
+    const eventCardItem = e.target.parentNode.parentNode;
+    try {
+        currentEventContainer.removeChild(eventCardItem);
+        updateEventCounter();
+    } catch {
+        completedEventContainer.removeChild(eventCardItem);
+    }
+}
+
+const markEventAsCompleted = (card) => {
+    const eventCompleted = card.target.parentNode.parentNode.firstChild.children;
+    const eachCardCompleted = card.target.parentNode.parentNode;
+    const btnCompleted = card.target;
+    const btnEditDisabled = card.target.parentNode.firstChild;
+    
+    for (let i = 0; i < eventCompleted.length; i++) {
+        btnCompleted.classList.add('is-completed');
+        eachCardCompleted.classList.add('is-completed');
+        eventCompleted[i].style.textDecoration = "line-through";
+        btnEditDisabled.classList.add('disabled');
+    };
+    deleteEventElement(card);
+    completedEventContainer.append(eachCardCompleted);
+
+    if (completedEventContainer.childNodes.length !== 0) {
+        completeTitle.classList.remove('d-none');
+        console.log(completedEventContainer.children.length);
+    } else {
+        completeTitle.classList.remove('d-none');
+    }
+}
+
+const editEventElement = e => {
+    let eachCardContent = e.target.parentNode.parentNode.firstChild.children;
+    const btnEdit = e.target;
+    const editLabelText = e.target.firstChild;
+    
+    for (let i = 0; i < eachCardContent.length; i++) {
+        if (eachCardContent[i].hasAttribute('readonly')) {
+            btnEdit.classList.add('active');
+            eachCardContent[i].removeAttribute('readonly');
+        } else {
+            btnEdit.classList.remove('active');
+            eachCardContent[i].setAttribute('readonly', 'readonly');
+            editLabelText.classList.add('is-saved');
+            setTimeout(() => {
+                editLabelText.classList.remove('is-saved');
+            }, 2000);
+        }
+    };
 };
 
-const createEventItem = (title) => {
+const purchasedDate = () => {
+    // Get formated date
+    const today = new Date();
+    const dd = today.getDate();
+    const mm = today.getMonth()+1;
+    const yyyy = today.getFullYear();
+    
+    const purchasedDate = `${dd}/${mm}/${yyyy}`;
+    return purchasedDate;
+};
+
+const createEventItem = (title, description, date) => {
     /* Creating Elements */
     // main wrapper
     const mainCardContainer = document.createElement('div');
@@ -40,100 +97,78 @@ const createEventItem = (title) => {
     const cardTextContent = document.createElement('div');
     cardTextContent.classList.add('item-content');
 
+    //date of purchase
+    const dateOfPurchase = document.createElement('p');
+    dateOfPurchase.classList.add('text-secondary', 'purchase-date');
+    dateOfPurchase.setAttribute('data-date', purchasedDate());
+    dateOfPurchase.innerHTML = purchasedDate();
+
     // input title
     const inputTitle = document.createElement('input');
     inputTitle.setAttribute('type', 'text');
     inputTitle.classList.add('text', 'item-title');
     inputTitle.setAttribute('value', title);
-    inputTitle.setAttribute('readonly', '');
+    inputTitle.setAttribute('readonly', 'readonly');
 
     // input description
-    // const inputDescription = document.createElement('textarea');
-    // inputDescription.setAttribute('type', 'text');
-    // inputDescription.classList.add('text', 'item-description');
-    // inputDescription.setAttribute('readonly', 'readonly');
-    // inputDescription.innerText = eventDescription;
+    const inputDescription = document.createElement('textarea');
+    inputDescription.setAttribute('type', 'text');
+    inputDescription.classList.add('text', 'item-description');
+    inputDescription.setAttribute('readonly', 'readonly');
+    inputDescription.setAttribute('rows', '1');
+    inputDescription.textContent = description;
+    // inputDescription.style.height = "35px";
+    inputDescription.addEventListener('keyup', textAreaResize);
 
     // CTA's container
     const ctaContainer = document.createElement('div');
     ctaContainer.classList.add('btn-cta-actions');
 
     // Button Edit
-    const btnEdit = document.createElement('button');
-    btnEdit.classList.add('edit');
-    // fa icon edit
-    const faIconEdit = document.createElement('i');
-    faIconEdit.classList.add('far','fa-edit');
+    const btnEdit = document.createElement('i');
+    btnEdit.classList.add('edit', 'fa-regular', 'fa-pen-to-square', 'fa-fw');
+    btnEdit.addEventListener('click', editEventElement);
+    const labelEdit = document.createElement('label');
+    labelEdit.textContent = 'saved';
+    labelEdit.classList.add('edit-label');
+
+    // Button Completed
+    const btnComplete = document.createElement('i');
+    btnComplete.classList.add('complete', 'fa-solid', 'fa-check');
+    btnComplete.addEventListener('click', markEventAsCompleted);
 
     // Button Delete
-    const btnDelete = document.createElement('button');
-    btnDelete.classList.add('delete');
-    // fa icon Delete
-    const faIconDelete = document.createElement('i');
-    faIconDelete.classList.add('fas','fa-trash-alt');
+    const btnDelete = document.createElement('i');
+    btnDelete.classList.add('delete', 'fa-solid', 'fa-trash', 'fa-fw');
+    btnDelete.addEventListener('click', deleteEventElement);
 
-    /* APPEND ELEMENTS TO CARD ITEM */
-    myEventContainer.appendChild(mainCardContainer);
-    mainCardContainer.appendChild(cardTextContent);
-    cardTextContent.appendChild(inputTitle);
-    // cardTextContent.appendChild(inputDescription);
-    mainCardContainer.appendChild(ctaContainer);
-    ctaContainer.appendChild(btnEdit);
-    btnEdit.appendChild(faIconEdit);
-    ctaContainer.appendChild(btnDelete);
-    btnDelete.appendChild(faIconDelete);
-
-    /* ADD EVENT LISTENER TO CTA's */
-    removeBtn.addEventListener('click', deleteEventElement);
-    console.log(removeBtn);
-    // btnEdit.addEventListener('click', editEventElement);
-    // console.log(inputTitle);
-
-    // textAreaResize();
+    mainCardContainer.append(cardTextContent);
+    cardTextContent.append(dateOfPurchase);
+    cardTextContent.append(inputTitle);
+    cardTextContent.append(inputDescription);
+    mainCardContainer.append(ctaContainer);
+    ctaContainer.append(btnEdit);
+    btnEdit.append(labelEdit);
+    ctaContainer.append(btnComplete);
+    ctaContainer.append(btnDelete);
     return mainCardContainer;
 };
 
-// const editEventElement = e => {
-//     const cardItem = e.target.parentNode.parentNode;
-//     const getFormInputs = cardItem.firstElementChild.children;
-
-//     for (let i = 0; i < getFormInputs.length; i++) {
-//         console.log('clicked', getFormInputs[i]);
-//     }
-// };
-
-// const textAreaResize = () => {
-//     descArea.addEventListener("keyup", e => {
-//         let descHeight = e.target.scrollHeight;
-//         descArea.style.height = "70px";
-//         descArea.style.height = `${descHeight}px`
-//     });
-// };
-
 const updateEventCounter = () => {
-    const eventNumber = document.querySelector('.counter');
-    eventNumber.textContent = myEventContainer.children.length;
+    const eventNumber = currentEventContainer.children.length;
+    eventCounter.textContent = eventNumber;
 };
 
-const createAndAddItem = (title) => {
-    // const newItem = `
-    // <div class="shopping-wrapper list-container" data-item="${itemTitle}">
-    //     <div class="shopping-item line-item">
-    //         <div class="item-content">
-    //             <input type="text" class="text item-title" value="${itemTitle}" readonly>
-    //             <textarea type="text" class="text item-description" readonly>${itemDesc}</textarea>
-    //         </div>
-    //         <div class="btn-cta-actions">
-    //             <button class="edit"><i class="far fa-edit"></i></button>
-    //             <button class="delete"><i class="fas fa-trash-alt"></i></button>
-    //         </div>
-    //     </div>
-    // `;
+const createAndAddItem = (title, description) => {
+    const mainCardContainer = createEventItem(title, description);
+    currentEventContainer.prepend(mainCardContainer);
+};
 
-    // myEventList.innerHTML += newItem;
-
-    const mainCardContainer = createEventItem(title);
-    myEventContainer.prepend(mainCardContainer);
+const textAreaResize = e => {
+    const descArea = e.target;
+    descArea.style.height = "auto";
+    let textAreaHeight = e.target.scrollHeight;
+    descArea.style.height = `${textAreaHeight}px`;
 };
 
 // Borrar Item
@@ -142,13 +177,14 @@ const createAndAddItem = (title) => {
     // if disabled add class completed to btn and in css add pointer-events: none; 
     // links help: https://www.youtube.com/watch?v=XtEs0SZ_4Y0 / https://www.youtube.com/watch?v=cTe5vQAm2So
 
-const myEventList = document.querySelector('.event-list-container');
-const addEventBtn = document.querySelector('#new-event-submit');
+const eventCounter = document.querySelector('.ev-counter');
 const eventInputForm = document.querySelector('.event-items-form');
-const removeBtn = document.querySelector('.delete');
-const editBtn = document.querySelector('.edit');
+const addEventBtn = document.querySelector('#new-event-submit');
+const inputEventTitle = document.querySelector('.title');
+const inputEventDescription = document.querySelector('.description');
 const errorMsg = document.querySelector('.error-msg');
-const descriptionInput = document.querySelector('.item-description');
-const myEventContainer = document.querySelector('.card-body');
+const currentEventContainer = document.querySelector('.card-body');
+const completedEventContainer = document.querySelector('.completed-events');
+const completeTitle = document.querySelector('.shopping-title-completed');
 
 addEventBtn.addEventListener('click', addEventItem);
