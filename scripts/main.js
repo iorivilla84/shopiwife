@@ -18,7 +18,6 @@ const addEventItem = e => {
         createAndAddItem(eventInputTitle, eventInputDescription);
         errorMsg.classList.remove('invalid');
         eventInputForm.reset();
-        updateEventCounter();
     };
 };
 
@@ -26,6 +25,7 @@ const deleteEventElement = e => {
     const eventCardItem = e.target.parentNode.parentNode;
     try {
         currentEventContainer.removeChild(eventCardItem);
+        removeEventDetailsFromLocalStorage();
         updateEventCounter();
     } catch {
         completedEventContainer.removeChild(eventCardItem);
@@ -45,8 +45,9 @@ const markEventAsCompleted = (card) => {
         btnCompleted.classList.add('is-completed');
         eachCardCompleted.classList.add('is-completed');
         eventCompleted[i].style.textDecoration = "line-through";
-        btnEditDisabled.classList.add('disabled');
+        btnEditDisabled.classList.add('is-completed');
     };
+
     deleteEventElement(card);
     if (completedEventContainer.childElementCount === 0) {
         completeTitle.classList.remove('d-none');
@@ -87,8 +88,10 @@ const purchasedDate = () => {
     const purchasedDate = `${dd}/${mm}/${yyyy}`;
     return purchasedDate;
 };
+// store date in a variable
+const currentDate = purchasedDate();
 
-const createEventItem = (title, description, date) => {
+const createEventItem = (title, description) => {
     /* Creating Elements */
     // main wrapper
     const mainCardContainer = document.createElement('div');
@@ -102,8 +105,8 @@ const createEventItem = (title, description, date) => {
     //date of purchase
     const dateOfPurchase = document.createElement('p');
     dateOfPurchase.classList.add('text-secondary', 'purchase-date');
-    dateOfPurchase.setAttribute('data-date', purchasedDate());
-    dateOfPurchase.innerHTML = purchasedDate();
+    dateOfPurchase.setAttribute('data-date', currentDate);
+    dateOfPurchase.innerHTML = 'Date: ' + currentDate;
 
     // input title
     const inputTitle = document.createElement('input');
@@ -162,8 +165,10 @@ const updateEventCounter = () => {
 };
 
 const createAndAddItem = (title, description) => {
-    const mainCardContainer = createEventItem(title, description);
+    const mainCardContainer = createEventItem(title, description, currentDate);
     currentEventContainer.prepend(mainCardContainer);
+    createEventDetailsInLocalStorage(title, description, currentDate);
+    updateEventCounter();
 };
 
 const textAreaResize = e => {
@@ -172,6 +177,43 @@ const textAreaResize = e => {
     let textAreaHeight = e.target.scrollHeight;
     descArea.style.height = `${textAreaHeight}px`;
 };
+
+// Local Storage Start
+const createEventDetailsInLocalStorage = () => {
+    const eventDetails = getEventContentFromLocalStorage();
+    eventDetails.push(eachEventData);
+    localStorage.setItem('Event Details', JSON.stringify(eventDetails));
+};
+
+const getEventContentFromLocalStorage = () => {
+    const eventDetails = localStorage.getItem('Event Details');
+    if (eventDetails) {
+        return JSON.parse(eventDetails);
+    } else {
+        return [];
+    }
+};
+
+const displayEventDetailsFromLocalStorage = () => {
+    const eventDetails = getEventContentFromLocalStorage();
+    const dataDate = document.getElementsByClassName('purchase-date');
+    for (let i =0; i < eventDetails.length; i++) {
+        const mainCardContainer = createEventItem(eventDetails[i].title, eventDetails[i].description);
+        currentEventContainer.prepend(mainCardContainer);
+    }
+
+    for (let i = 0; i < dataDate.length; i++) {
+        dataDate[i].innerHTML = 'Date: ' + eventDetails[i].date;
+    }
+    updateEventCounter();
+};
+
+const removeEventDetailsFromLocalStorage = (eventDetail) => {
+    const eventDetails = getEventContentFromLocalStorage();
+    const filteredEventDetails = eventDetails.filter(eachEvent => eachEvent != eventDetail);
+
+    localStorage.setItem('Event Details', JSON.stringify(filteredEventDetails));
+}
 
 // Borrar Item
 // cuando haga click en caneca eliminar elemento html
@@ -188,5 +230,21 @@ const errorMsg = document.querySelector('.error-msg');
 const currentEventContainer = document.querySelector('.card-body');
 const completedEventContainer = document.querySelector('.completed-events');
 const completeTitle = document.querySelector('.shopping-title-completed');
+
+const eachEventData = {
+    date: currentDate,
+    title: eventInputForm.eventTitleInput.value,
+    description: eventInputForm.eventDescriptionInput.value
+}
+
+displayEventDetailsFromLocalStorage();
+
+// Event Details Data
+addEventBtn.addEventListener('click', () => {
+    const title = eventInputForm.eventTitleInput.value;
+    const description = eventInputForm.eventDescriptionInput.value;
+    eachEventData.title = title
+    eachEventData.description = description
+});
 
 addEventBtn.addEventListener('click', addEventItem);

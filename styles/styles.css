@@ -162,12 +162,12 @@ header {
 }
 
 .line-item {
+    background-color: var(--darkest);
+    border-radius: 1rem;
     display: flex;
     justify-content: space-between;
-    background-color: var(--darkest);
-    padding: 1rem;
-    border-radius: 1rem;
     margin-bottom: 1rem;
+    padding: 1rem;
 }
 
 .line-item.is-completed {
@@ -223,8 +223,8 @@ header {
     color: var(--blue);
 }
 
-.line-item .btn-cta-actions .edit.disabled {
-    pointer-events: none !important;
+.line-item .btn-cta-actions .edit.is-completed {
+    display: none;
 }
 
 .line-item .btn-cta-actions .delete {
